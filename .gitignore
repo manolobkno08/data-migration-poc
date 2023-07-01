@@ -118,7 +118,7 @@ venv.bak/
 # all logs
 logs/
 
-*.csv
+#*.csv
 
 *.h5
 

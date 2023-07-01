@@ -14,6 +14,7 @@ if __name__ == '__main__':
 
     for file in os.listdir(csv_to_migrate):
         file_path = os.path.join(csv_to_migrate, file)
+
         if file.split('.')[1] == 'csv':
             if file.split('.')[0] == 'departments':
                 df = pd.read_csv(file_path, names=['id', 'department'])
