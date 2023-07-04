@@ -1,12 +1,15 @@
 # [Standard Library]
 import os
+from pathlib import Path
 
 # [3rd Party]
 import uvicorn
 from dotenv import load_dotenv
 from fastapi import FastAPI
 
-load_dotenv('.env')
+WORKING_DIRECTORY = Path(__file__).resolve().parent.parent
+dotenv_path = os.path.join(WORKING_DIRECTORY, '.env')
+load_dotenv(dotenv_path)
 
 app = FastAPI()
 
