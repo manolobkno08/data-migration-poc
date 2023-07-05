@@ -44,6 +44,10 @@ def load_to_db(df, table_name):
 def parse_csv_files_and_save(csv_to_migrate, destiny_path):
 
     files = os.listdir(csv_to_migrate)
+
+    if len(files) == 0:
+        print("====> No files found for migration\n")
+
     # Add "hired_employees.csv" at the beginning of the list to create main table as needed
     if "hired_employees.csv" in files:
         files.remove("hired_employees.csv")
@@ -75,7 +79,7 @@ def parse_csv_files_and_save(csv_to_migrate, destiny_path):
 
         else:
             # Send the output into the log file
-            print(f"The following file is not a valid csv: {file}")
+            print(f"====> The following file is not a valid csv: {file}\n")
             continue
 
         # print(df.head())
