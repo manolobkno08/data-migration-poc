@@ -2,13 +2,10 @@
 # [Standard Library]
 import os
 import shutil
-import sys
 from pathlib import Path
 
 # [3rd Party]
-import numpy as np
 import pandas as pd
-import psycopg2
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 
@@ -17,14 +14,14 @@ from sqlalchemy import create_engine
 # from app.db import DataBaseConnection
 
 
-WORKING_DIRECTORY = Path(__file__).resolve().parent.parent
+WORKING_DIRECTORY = Path(__file__).resolve().parent.parent.parent
 
 dotenv_path = os.path.join(WORKING_DIRECTORY, '.env')
 load_dotenv(dotenv_path)
 
 
 def load_to_db(df, table_name):
-    conn_string = f"postgresql+psycopg2://{os.getenv('POSTGRES_USER')}:{os.getenv('POSTGRES_PASSWORD')}@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('POSTGRES_DB')}"
+    conn_string = f"postgresql+psycopg2://{os.getenv('POSTGRES_USER')}:{os.getenv('POSTGRES_PASSWORD')}@{os.getenv('M_HOST')}:{os.getenv('M_PORT')}/{os.getenv('POSTGRES_DB')}"
     db = create_engine(conn_string)
     conn = db.connect()
 
@@ -42,7 +39,6 @@ def load_to_db(df, table_name):
 
 
 def parse_csv_files_and_save(csv_to_migrate, destiny_path):
-
     files = os.listdir(csv_to_migrate)
 
     if len(files) == 0:
@@ -82,11 +78,9 @@ def parse_csv_files_and_save(csv_to_migrate, destiny_path):
             print(f"====> The following file is not a valid csv: {file}\n")
             continue
 
-        # print(df.head())
-
 
 if __name__ == '__main__':
-    csv_to_migrate = os.path.join(WORKING_DIRECTORY, 'landing_zone')
-    destiny_path = os.path.join(WORKING_DIRECTORY, 'processed')
+    csv_to_migrate = os.path.join(WORKING_DIRECTORY, 'src', 'landing_zone')
+    destiny_path = os.path.join(WORKING_DIRECTORY, 'src', 'processed')
 
     parse_csv_files_and_save(csv_to_migrate, destiny_path)

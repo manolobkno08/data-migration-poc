@@ -130,3 +130,5 @@ logs/
 # Test files
 test.sql
 
+# Persistent Data
+postgresql-data/
