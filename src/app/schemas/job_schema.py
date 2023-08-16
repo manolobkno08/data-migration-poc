@@ -5,8 +5,6 @@ from typing import Union
 # [3rd Party]
 from pydantic import BaseModel
 
-from .hired_employee_schema import HiredEmployee
-
 
 class JobBase(BaseModel):
     id: int
@@ -18,7 +16,8 @@ class JobCreate(JobBase):
 
 
 class Job(JobBase):
-    h_employee: List[HiredEmployee] = []
+    # from .hired_employee_schema import HiredEmployee
+    # h_employee: List[HiredEmployee] = []
 
     class Config:
         orm_mode = True

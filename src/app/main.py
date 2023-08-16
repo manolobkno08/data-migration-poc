@@ -5,54 +5,47 @@ from pathlib import Path
 # [3rd Party]
 import uvicorn
 from dotenv import load_dotenv
+from fastapi import Depends
 from fastapi import FastAPI
-from sqlalchemy import column
-from sqlalchemy import create_engine
-from sqlalchemy import select
-from sqlalchemy import text
-from sqlalchemy.orm import sessionmaker
+from fastapi import HTTPException
+from sqlalchemy.orm import Session
 
-from .routes import job
+from .crud import department as crud_department
+from .crud import hired_employee as crud_hired_employee
+from .crud import job as crud_job
+from .db import engine
+from .db import get_db
+from .models import models
+from .schemas import department_schema
+from .schemas import hired_employee_schema
+from .schemas import job_schema
+
+models.Base.metadata.create_all(bind=engine)
+
 
 WORKING_DIRECTORY = Path(__file__).resolve().parent.parent.parent
 dotenv_path = os.path.join(WORKING_DIRECTORY, '.env')
 load_dotenv(dotenv_path)
 
+
 app = FastAPI()
 
 
-conn_string = f"postgresql+psycopg2://{os.getenv('POSTGRES_USER')}:{os.getenv('POSTGRES_PASSWORD')}@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('POSTGRES_DB')}"
+@app.post("/department/", response_model=department_schema.Department)
+def create_department(department: department_schema.DepartmentCreate, db: Session = Depends(get_db)):
+    db_department = crud_department.get(db, department.id)
+    if db_department:
+        raise HTTPException(
+            status_code=400, detail="Department already registered")
+    return crud_department.create(db=db, department=department)
 
 
-app.include_router(job)
-
-
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-
-@app.get("/test")
-async def test():
-    return {"message": "Hello Manolo"}
-
-
-@app.get("/user/{user_id}")
-async def read_item(user_id: int):
-    engine = create_engine(conn_string)
-    Session = sessionmaker(bind=engine)
-    session = Session()
-
-    query = text("SELECT * FROM jobs WHERE id = :id")
-    result = session.execute(query, {"id": user_id})
-    res = result.fetchone()
-    session.close()
-
-    if res is not None:
-        info = dict(res._asdict())
-        return info
-    else:
-        return {"message": "No data found"}
+@app.get("/department/", response_model=department_schema.Department)
+def read_departments(db: Session = Depends(get_db)):
+    db_departments = crud_department.get_all(db)
+    if db_departments is None:
+        raise HTTPException(status_code=404, detail="Departments not found")
+    return db_departments
 
 
 if __name__ == '__main__':
