@@ -12,29 +12,13 @@ from sqlalchemy import select
 from sqlalchemy import text
 from sqlalchemy.orm import sessionmaker
 
-from .routes import job
-
 WORKING_DIRECTORY = Path(__file__).resolve().parent.parent.parent
 dotenv_path = os.path.join(WORKING_DIRECTORY, '.env')
 load_dotenv(dotenv_path)
 
 app = FastAPI()
 
-
 conn_string = f"postgresql+psycopg2://{os.getenv('POSTGRES_USER')}:{os.getenv('POSTGRES_PASSWORD')}@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('POSTGRES_DB')}"
-
-
-app.include_router(job)
-
-
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-
-@app.get("/test")
-async def test():
-    return {"message": "Hello Manolo"}
 
 
 @app.get("/user/{user_id}")

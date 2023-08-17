@@ -23,7 +23,3 @@ load_dotenv(dotenv_path)
 app = FastAPI()
 
 app.include_router(api_router)
-
-
-if __name__ == '__main__':
-    uvicorn.run(app, host=os.getenv("SERVER"), port=8000)
