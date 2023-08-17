@@ -2,7 +2,7 @@
 from sqlalchemy.orm import Session
 
 from ..models import models
-from ..schemas import department_schema
+from ..schemas import department
 
 
 def get(db: Session, department_id: int):
@@ -13,7 +13,7 @@ def get_all(db: Session):
     return db.query(models.Department).all()
 
 
-def create(db: Session, department: department_schema.DepartmentCreate):
+def create(db: Session, department: department.DepartmentCreate):
     db_department = models.Department(**department.dict())
     db.add(db_department)
     db.commit()

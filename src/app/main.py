@@ -1,6 +1,7 @@
 # [Standard Library]
 import os
 from pathlib import Path
+from typing import List
 
 # [3rd Party]
 import uvicorn
@@ -16,10 +17,11 @@ from .crud import job as crud_job
 from .db import engine
 from .db import get_db
 from .models import models
-from .schemas import department_schema
-from .schemas import hired_employee_schema
-from .schemas import job_schema
+from .schemas import department as department_schema
+from .schemas import hired_employee as hired_employee_schema
+from .schemas import job as job_schema
 
+# Novatada mateo jr
 models.Base.metadata.create_all(bind=engine)
 
 
@@ -40,7 +42,7 @@ def create_department(department: department_schema.DepartmentCreate, db: Sessio
     return crud_department.create(db=db, department=department)
 
 
-@app.get("/department/", response_model=department_schema.Department)
+@app.get("/department/", response_model=List[department_schema.Department])
 def read_departments(db: Session = Depends(get_db)):
     db_departments = crud_department.get_all(db)
     if db_departments is None:

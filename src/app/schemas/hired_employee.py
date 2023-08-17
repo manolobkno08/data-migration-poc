@@ -5,11 +5,10 @@ from typing import Union
 # [3rd Party]
 from pydantic import BaseModel
 
-from .department_schema import Department
-from .job_schema import Job
+from .department import Department
+from .job import Job
 
 
-# HIRED EMPLOYEES
 class HiredEmployeeBase(BaseModel):
     id: int
     name: Union[str, None] = None

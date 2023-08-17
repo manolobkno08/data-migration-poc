@@ -2,7 +2,7 @@
 from sqlalchemy.orm import Session
 
 from ..models import models
-from ..schemas import job_schema
+from ..schemas import job
 
 
 def get(db: Session, job_id: int):
@@ -13,7 +13,7 @@ def get_all(db: Session):
     return db.query(models.Job).all()
 
 
-def create(db: Session, job: job_schema.JobCreate):
+def create(db: Session, job: job.JobCreate):
     db_job = models.Job(**job.dict())
     db.add(db_job)
     db.commit()
