@@ -11,10 +11,6 @@ from .api.api_v1.api import api_router
 from .db import engine
 from .models import models
 
-# Novatada mateo jr
-models.Base.metadata.create_all(bind=engine)
-
-
 WORKING_DIRECTORY = Path(__file__).resolve().parent.parent.parent
 dotenv_path = os.path.join(WORKING_DIRECTORY, '.env')
 load_dotenv(dotenv_path)
