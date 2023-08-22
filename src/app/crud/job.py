@@ -1,8 +1,8 @@
 # [3rd Party]
 from sqlalchemy.orm import Session
 
-from ..models import models
-from ..schemas import job
+from app.models import models
+from app.schemas import job
 
 
 def get(db: Session, job_id: int):

@@ -8,6 +8,6 @@ from .endpoints import job
 api_router = APIRouter()
 api_router.include_router(
     department.router, prefix="", tags=["department"])
-# api_router.include_router(hired_employee.router,
-#                           prefix="/hired_employee", tags=["hired_employee"])
+api_router.include_router(hired_employee.router,
+                          prefix="", tags=["hired_employee"])
 api_router.include_router(job.router, prefix="", tags=["job"])

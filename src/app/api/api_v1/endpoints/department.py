@@ -2,14 +2,13 @@
 from typing import List
 
 # [3rd Party]
+from app.crud import department as crud_department
+from app.db import get_db
+from app.schemas import department as department_schema
 from fastapi import APIRouter
 from fastapi import Depends
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
-
-from ....crud import department as crud_department
-from ....db import get_db
-from ....schemas import department as department_schema
 
 router = APIRouter()
 

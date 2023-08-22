@@ -22,8 +22,8 @@ class HiredEmployeeCreate(HiredEmployeeBase):
 
 
 class HiredEmployee(HiredEmployeeBase):
-    job: Job
-    department: Department
+    # job: Job
+    # department: Department
 
     class Config:
         orm_mode = True

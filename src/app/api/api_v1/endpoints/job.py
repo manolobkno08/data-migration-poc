@@ -2,14 +2,13 @@
 from typing import List
 
 # [3rd Party]
+from app.crud import job as crud_job
+from app.db import get_db
+from app.schemas import job as job_schema
 from fastapi import APIRouter
 from fastapi import Depends
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
-
-from ....crud import job as crud_job
-from ....db import get_db
-from ....schemas import job as job_schema
 
 router = APIRouter()
 
