@@ -19,3 +19,25 @@ def create(db: Session, hired_employee: hired_employee.HiredEmployeeCreate):
     db.commit()
     db.refresh(db_hired_employee)
     return db_hired_employee
+
+
+def delete(db: Session, hired_employee_id: int):
+    db_hired_employee = db.query(models.Hired_Employee).filter(
+        models.Hired_Employee.id == hired_employee_id).first()
+    if db_hired_employee:
+        db.delete(db_hired_employee)
+        db.commit()
+        return {"detail": "Hired Employee deleted successfully"}
+
+
+def update(db: Session, hired_employee_id: int, hired_employee: hired_employee.HiredEmployeeUpdate):
+    db_hired_employee = db.query(models.Hired_Employee).filter(
+        models.Hired_Employee.id == hired_employee_id).first()
+    if db_hired_employee:
+        db_hired_employee.name = hired_employee.name
+        db_hired_employee.datetime = hired_employee.datetime
+        db_hired_employee.department_id = hired_employee.department_id
+        db_hired_employee.job_id = hired_employee.job_id
+        db.commit()
+        db.refresh(db_hired_employee)
+        return db_hired_employee

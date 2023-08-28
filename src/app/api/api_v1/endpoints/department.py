@@ -28,3 +28,19 @@ def read_departments(db: Session = Depends(get_db)):
     if db_departments is None:
         raise HTTPException(status_code=404, detail="Departments not found")
     return db_departments
+
+
+@router.delete("/department/{department_id}", response_model=department_schema.DepartmentDelete)
+def delete_department(department_id: int, db: Session = Depends(get_db)):
+    db_department = crud_department.get(db, department_id)
+    if db_department is None:
+        raise HTTPException(status_code=404, detail="Department not found")
+    return crud_department.delete(db=db, department_id=department_id)
+
+
+@router.put("/department/{department_id}", response_model=department_schema.Department)
+def update_department(department_id: int, department: department_schema.DepartmentUpdate, db: Session = Depends(get_db)):
+    db_department = crud_department.get(db, department_id)
+    if db_department is None:
+        raise HTTPException(status_code=404, detail="Department not found")
+    return crud_department.update(db=db, department_id=department_id, department=department)

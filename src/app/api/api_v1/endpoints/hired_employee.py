@@ -29,3 +29,21 @@ def read_hired_employees(db: Session = Depends(get_db)):
         raise HTTPException(
             status_code=404, detail="Hired Employees not found")
     return db_hired_employees
+
+
+@router.delete("/hired_employee/{hired_employee_id}", response_model=hired_employee_schema.HiredEmployeeDelete)
+def delete_hired_employee(hired_employee_id: int, db: Session = Depends(get_db)):
+    db_hired_employee = crud_hired_employee.get(db, hired_employee_id)
+    if db_hired_employee is None:
+        raise HTTPException(
+            status_code=404, detail="Hired Employee not found")
+    return crud_hired_employee.delete(db=db, hired_employee_id=hired_employee_id)
+
+
+@router.put("/hired_employee/{hired_employee_id}", response_model=hired_employee_schema.HiredEmployee)
+def update_hired_employee(hired_employee_id: int, hired_employee: hired_employee_schema.HiredEmployeeUpdate, db: Session = Depends(get_db)):
+    db_hired_employee = crud_hired_employee.get(db, hired_employee_id)
+    if db_hired_employee is None:
+        raise HTTPException(
+            status_code=404, detail="Hired Employee not found")
+    return crud_hired_employee.update(db=db, hired_employee_id=hired_employee_id, hired_employee=hired_employee)

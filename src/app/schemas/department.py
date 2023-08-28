@@ -15,6 +15,14 @@ class DepartmentCreate(DepartmentBase):
     pass
 
 
+class DepartmentUpdate(BaseModel):
+    department: Union[str, None] = None
+
+
+class DepartmentDelete(BaseModel):
+    detail: Union[str, None] = None
+
+
 class Department(DepartmentBase):
 
     class Config:

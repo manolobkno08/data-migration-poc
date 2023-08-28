@@ -21,6 +21,17 @@ class HiredEmployeeCreate(HiredEmployeeBase):
     pass
 
 
+class HiredEmployeeUpdate(BaseModel):
+    name: Union[str, None] = None
+    datetime: Union[str, None] = None
+    department_id: Union[int, None] = None
+    job_id: Union[int, None] = None
+
+
+class HiredEmployeeDelete(BaseModel):
+    detail: Union[str, None] = None
+
+
 class HiredEmployee(HiredEmployeeBase):
     # job: Job
     # department: Department
